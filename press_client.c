@@ -11,7 +11,6 @@
 #include <wiringPi.h>
 #include <wiringPiSPI.h>
 #include <mcp3004.h>
-#include <softTone.h>
 
 #define DIRECTION_MAX 45
 #define BUFFER_MAX 128
@@ -20,9 +19,6 @@
 
 #define BASE 100
 #define SPI_CHAN 0
-
-#define BuzzPin 1
-#define CM3 330
 
 void error_handling(char *message)
 {
