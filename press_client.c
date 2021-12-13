@@ -36,9 +36,6 @@ int main(int argc, char *argv[])
     char msg[BUFFER_MAX];
     int state=0; //pressure state
 
-    int song_1[] = {CM3,CM3};
-    int beat_1[] = {2,2};
-
     if (argc != 2)
     {
         printf("Usage : %s <IP>\n", argv[0]);
