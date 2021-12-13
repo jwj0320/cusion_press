@@ -1,3 +1,4 @@
+// gcc -o press_client press_client -lwiringPi
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
