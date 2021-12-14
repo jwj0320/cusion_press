@@ -1,4 +1,4 @@
-// gcc -o press_client press_client -lwiringPi
+// gcc -o press_client press_client.c -lwiringPi
 #include <sys/stat.h>
 #include <sys/types.h>
 #include <fcntl.h>
@@ -68,6 +68,7 @@ int main(int argc, char *argv[])
     {
         // judge pressure state
         int aver1=0, aver2=0, aver3=0, aver4=0;
+        int total_average=0;
         int i;
         for(i=0; i<200; i++){
             aver1 += analogRead(BASE);
@@ -83,18 +84,35 @@ int main(int argc, char *argv[])
         aver2 = aver2 / (i);
         aver3 = aver3 / (i);
         aver4 = aver4 / (i);
+
+        total_average=((aver1 + 300)+(aver2 + 300)+aver3+aver4)/4;
         
         printf("Average 1 : %d\n", aver1);
         printf("Average 2 : %d\n", aver2);
         printf("Average 3 : %d\n", aver3);
         printf("Average 4 : %d\n", aver4);
         
-        if(aver1 < 200 || aver2 < 200 || aver3 < 400 || aver4 < 400 ) state = 1;
+        // if(aver1 < 200 || aver2 < 200 || aver3 < 400 || aver4 < 400 ) 
+        //     state = 1;
 
+        if((aver1 > total_average+200 ) || (aver1 < total_average-200 ))
+            state = 1;
+        
+        else if((aver2 > total_average+200 ) || (aver2 < total_average-200 ))
+            state = 1;
+        
+        else if((aver3 > total_average+200 ) || (aver3 < total_average-200 ))
+            state = 1;
+        
+        else if((aver4 > total_average+200 ) || (aver4 < total_average-200 ))
+            state = 1;
+        
+        
         if(state==1)
         {
             sprintf(msg, "%d", state);
             write(sock, msg, sizeof(msg));
+            state=0;
         }
 
         usleep(500 * 100);
